@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taburan Bunga dan Love Dinamis</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #fff0f5;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .partikel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      opacity: 0.9;
+      pointer-events: none;
+      transform-origin: center;
+    }
+
+    .kelopak {
+      background: pink;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(45deg);
+    }
+
+    .love {
+      background: red;
+      transform: rotate(45deg);
+    }
+
+    .love::before,
+    .love::after {
+      content: '';
+      position: absolute;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .love::before {
+      top: -50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .love::after {
+      top: 0;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+    }
+
+    .teks {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 3em;
+      color: #d63384;
+      font-weight: bold;
+      animation: pulse 3s infinite ease-in-out;
+      text-shadow: 2px 2px 5px #ffb3d9;
+      z-index: 10;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.08);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="teks">LELA MAAF YA... <br>
+    jangan suka marah dong...
+  </div>
+
+  <script>
+    const totalPartikel = 70;
+
+    for (let i = 0; i < totalPartikel; i++) {
+      const elemen = document.createElement('div');
+
+      // Acak jenis
+      const isLove = Math.random() > 0.5;
+      elemen.classList.add('partikel', isLove ? 'love' : 'kelopak');
+
+      // Ukuran acak
+      const ukuran = 20 + Math.random() * 20;
+      elemen.style.width = ukuran + 'px';
+      elemen.style.height = ukuran + 'px';
+
+      // Posisi awal di tengah
+      elemen.style.top = '50%';
+      elemen.style.left = '50%';
+
+      document.body.appendChild(elemen);
+
+      // Gerak acak
+      const angle = Math.random() * 2 * Math.PI; // arah 360°
+      const distance = 100 + Math.random() * 300; // jarak sebar
+      const translateX = Math.cos(angle) * distance;
+      const translateY = Math.sin(angle) * distance;
+
+      // Rotasi & durasi acak
+      const rotasi = 360 + Math.random() * 360;
+      const durasi = 3 + Math.random() * 3;
+
+      // Animasi manual pakai timeout biar smooth & dinamis
+      elemen.animate([
+        {
+          transform: 'translate(0, 0) scale(1) rotate(0deg)',
+          opacity: 1
+        },
+        {
+          transform: `translate(${translateX}px, ${translateY}px) scale(0.5) rotate(${rotasi}deg)`,
+          opacity: 0
+        }
+      ], {
+        duration: durasi * 1000,
+        easing: 'ease-out',
+        iterations: Infinity,
+        delay: Math.random() * 2000
+      });
+    }
+  </script>
+
+</body>
+</html>
